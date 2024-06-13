@@ -10,7 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Persistent;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import zti.protin.auth.AuthRegisterDTO;
+import zti.protin.auth.AuthRegisterDto;
 
 @Getter
 @Persistent
@@ -55,8 +55,7 @@ public class User {
         this.email = email;
     }
 
-    public User(User user) {
-        this.id = user.getId();
+    public User(AuthRegisterDto user) {
         this.username = user.getUsername();
         this.age = user.getAge();
         this.gender = user.getGender();
@@ -64,18 +63,7 @@ public class User {
         this.education = user.getEducation();
         this.preferences = user.getPreferences();
         this.email = user.getEmail();
-        this.password = user.getPassword();
-    }
-
-    public User(AuthRegisterDTO user) {
-        this.username = user.getUsername();
-        this.age = user.getAge();
-        this.gender = user.getGender();
-        this.experience = user.getExperience();
-        this.education = user.getEducation();
-        this.preferences = user.getPreferences();
-        this.email = user.getEmail();
-        this.password = user.getPassword();
+        this.password = hashPassword(user.getPassword());
     }
 
     @Override
@@ -101,12 +89,6 @@ public class User {
         // Use BCryptPasswordEncoder to hash the password
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         return encoder.encode(password);
-    }
-
-    public boolean checkPassword(String password) {
-        // Use BCryptPasswordEncoder to check if the given password matches the hashed password
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        return encoder.matches(password, this.password);
     }
 }
 

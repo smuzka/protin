@@ -1,9 +1,10 @@
 package zti.protin.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,21 +33,26 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<String> createAuthenticationToken(@RequestBody AuthLoginDTO authLoginDTO) throws Exception {
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authLoginDTO.getEmail(), authLoginDTO.getPassword()));
+            boolean isPasswordCorrect = userService.checkPassword(authLoginDTO);
+            if (!isPasswordCorrect) {
+                throw new Exception("Incorrect email or password");
+            }
         } catch (AuthenticationException e) {
             throw new Exception("Incorrect email or password", e);
         }
 
-        final org.springframework.security.core.userdetails.UserDetails userDetails = userDetailsService.loadUserByUsername(authLoginDTO.getEmail());
-        final String jwt = jwtUtil.generateToken(userDetails.getUsername());
+        final String jwt = jwtUtil.generateToken(authLoginDTO.getEmail());
         return ResponseEntity.ok(jwt);
     }
 
     @PostMapping("/register")
-    public ResponseEntity createAuthenticationToken(@RequestBody AuthRegisterDTO authRegisterDTO) throws Exception {
-        userService.Add(authRegisterDTO);
-
-        return ResponseEntity.ok().build();
+    public ResponseEntity createAuthenticationToken(@RequestBody AuthRegisterDto authRegisterDTO) throws Exception {
+        try {
+            userService.Add(authRegisterDTO);
+            return ResponseEntity.ok().build();
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already exists");
+        }
     }
 }
 

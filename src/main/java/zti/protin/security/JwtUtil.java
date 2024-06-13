@@ -10,7 +10,7 @@ import java.util.function.Function;
 
 @Component
 public class JwtUtil {
-    private String secret = "77158e1b-2a49-40db-8fe8-2844ce43aaab";
+    private final String secret = "77158e1b2a4940db8fe82844ce43aaab1234123123jkasdhkjasdi213o";
 
     public Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);

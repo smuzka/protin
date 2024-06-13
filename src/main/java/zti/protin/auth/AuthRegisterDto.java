@@ -3,7 +3,7 @@ package zti.protin.auth;
 import lombok.Data;
 
 @Data
-public class AuthRegisterDTO {
+public class AuthRegisterDto {
     private String email;
     private String password;
     private String username;
