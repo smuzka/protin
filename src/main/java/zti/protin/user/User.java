@@ -66,6 +66,30 @@ public class User {
         this.password = hashPassword(user.getPassword());
     }
 
+    public User(User user) {
+        this.id = user.getId();
+        this.username = user.getUsername();
+        this.age = user.getAge();
+        this.gender = user.getGender();
+        this.experience = user.getExperience();
+        this.education = user.getEducation();
+        this.preferences = user.getPreferences();
+        this.email = user.getEmail();
+        this.password = user.getPassword();
+    }
+
+    public User(UserDto userDto) {
+        this.id = userDto.getId();
+        this.username = userDto.getUsername();
+        this.age = userDto.getAge();
+        this.gender = userDto.getGender();
+        this.experience = userDto.getExperience();
+        this.education = userDto.getEducation();
+        this.preferences = userDto.getPreferences();
+        this.email = userDto.getEmail();
+        this.password = userDto.getPassword();
+    }
+
     @Override
     public String toString() {
         return "User{" +
