@@ -3,6 +3,7 @@ package zti.protin.match;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,6 +12,7 @@ import zti.protin.user.UserDto;
 @Getter
 @Setter
 @Entity
+@Table(name = "matches")
 public class Match {
 
     @jakarta.persistence.Id
@@ -27,5 +29,6 @@ public class Match {
         this.matched_user_id = matched_user.getId();
     }
 
-    public Match() {}
+    public Match() {
+    }
 }

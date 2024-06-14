@@ -39,6 +39,12 @@ public class MyUserDetailsService implements UserDetailsService {
             UserDto userDto = new UserDto();
             userDto.setId(user.get().getId());
             userDto.setEmail(user.get().getEmail());
+            userDto.setUsername(user.get().getUsername());
+            userDto.setAge(user.get().getAge());
+            userDto.setGender(user.get().getGender());
+            userDto.setExperience(user.get().getExperience());
+            userDto.setEducation(user.get().getEducation());
+            userDto.setPreferences(user.get().getPreferences());
             // set other fields as necessary
             return userDto;
         } else {

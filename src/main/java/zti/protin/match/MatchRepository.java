@@ -1,6 +1,8 @@
 package zti.protin.match;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -10,4 +12,9 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
 
     List<Match> findAll();
 
+    @Query("SELECT m1.matched_user_id FROM Match m1 " +
+            "WHERE m1.matching_user_id = :userId AND EXISTS (" +
+            "SELECT m2 FROM Match m2 WHERE m2.matching_user_id = m1.matched_user_id " +
+            "AND m2.matched_user_id = :userId)")
+    List<Long> findMutualMatches(@Param("userId") Long userId);
 }
