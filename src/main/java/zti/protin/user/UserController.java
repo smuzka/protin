@@ -6,10 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import zti.protin.auth.AuthRegisterDto;
 
 import java.util.List;
 
@@ -28,6 +26,12 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+    @GetMapping("user/{userId}")
+    public ResponseEntity<UserDto> getUser(@PathVariable Long userId) {
+        UserDto user = userService.getUserDtoById(userId);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
     @GetMapping("/user-to-match/{userId}")
     public ResponseEntity<List<User>> getUserToMatch(@PathVariable Long userId) {
         List<User> user = userService.getUserToMatch(userId);
@@ -35,7 +39,7 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    public String getCurrentUserAlternative() {
+    public String getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()) {
             Object principal = authentication.getPrincipal();
