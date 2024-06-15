@@ -58,5 +58,9 @@ public class MyUserDetailsService implements UserDetailsService {
         User user = userRepository.findByEmail(authLoginDTO.getEmail()).orElseThrow(() -> new UsernameNotFoundException("Not found: " + authLoginDTO.getEmail()));
         return encoder.matches(authLoginDTO.getPassword(), user.getPassword());
     }
+
+    public List<User> getUserToMatch(Long id) {
+        return userRepository.findUserToMatchById(id);
+    }
 }
 
