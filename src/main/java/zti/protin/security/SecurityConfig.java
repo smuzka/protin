@@ -31,7 +31,7 @@ public class SecurityConfig {
                         authorizeRequests
                                 .requestMatchers("/api/login").permitAll()
                                 .requestMatchers("/api/register").permitAll()
-                                .requestMatchers("/api/users").permitAll()
+                                .requestMatchers("/api/logout").permitAll()
                                 .anyRequest().authenticated()
                 ).sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
