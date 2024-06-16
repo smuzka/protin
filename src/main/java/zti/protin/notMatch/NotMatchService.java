@@ -15,7 +15,7 @@ public class NotMatchService {
     @Autowired
     private MyUserDetailsService userService;
 
-    public Boolean notMatch(MatchDto matchDTO) {
+    public Boolean notMatch(NotMatchDto matchDTO) {
         UserDto matching_user = userService.getUserDtoById(matchDTO.getMatching_user_id());
         UserDto matched_user = userService.getUserDtoById(matchDTO.getMatched_user_id());
 

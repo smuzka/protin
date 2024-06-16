@@ -32,9 +32,27 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @GetMapping("/user-to-match/{userId}")
-    public ResponseEntity<List<User>> getUserToMatch(@PathVariable Long userId) {
-        List<User> user = userService.getUserToMatch(userId);
+    @GetMapping("/user-to-match")
+    public ResponseEntity<User> getUserToMatch() {
+        Long userId = null;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof UserDetails) {
+                userId = ((MyUserDetails) principal).getUser().getId();
+            }
+        }
+
+        if (userId == null) {
+            return null;
+        }
+
+        User user = userService.getUserToMatch(userId);
+        if (user == null) {
+            return null;
+        }
+
+        user.setEmail("hidden");
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 

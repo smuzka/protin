@@ -59,7 +59,7 @@ public class MyUserDetailsService implements UserDetailsService {
         return encoder.matches(authLoginDTO.getPassword(), user.getPassword());
     }
 
-    public List<User> getUserToMatch(Long id) {
+    public User getUserToMatch(Long id) {
         return userRepository.findUserToMatchById(id);
     }
 }

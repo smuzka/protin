@@ -19,10 +19,25 @@ public class MatchController {
     @Autowired
     private MatchService matchService;
 
-    @PostMapping("/match")
-    public ResponseEntity<Boolean> match(@RequestBody MatchDto matchDTO) {
-        boolean match = matchService.match(matchDTO);
-        return new ResponseEntity<>(match, HttpStatus.OK);
+    @PostMapping("/match/{userId}")
+    public ResponseEntity<Boolean> match(@PathVariable Long userId) {
+        Long matchingUserId = null;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof UserDetails) {
+                matchingUserId = ((MyUserDetails) principal).getUser().getId();
+            }
+        }
+
+        if (matchingUserId == null) {
+            return null;
+        }
+
+        MatchDto match = new MatchDto(matchingUserId, userId);
+
+        boolean isMatch = matchService.match(match);
+        return new ResponseEntity<>(isMatch, HttpStatus.OK);
     }
 
     @GetMapping("/mutual-matches")

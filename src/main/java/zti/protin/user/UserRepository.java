@@ -21,6 +21,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findAll();
 
     @Query("SELECT u FROM User u WHERE u.id != :id AND u.id NOT IN (SELECT m.matched_user_id FROM Match m WHERE m.matching_user_id = :id) AND u.id NOT IN (SELECT m.matched_user_id FROM NotMatch m WHERE m.matching_user_id = :id) ORDER BY RANDOM() LIMIT 1")
-    List<User> findUserToMatchById(Long id);
+    User findUserToMatchById(Long id);
 }
 
