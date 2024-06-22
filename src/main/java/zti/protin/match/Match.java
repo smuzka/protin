@@ -9,12 +9,18 @@ import lombok.Getter;
 import lombok.Setter;
 import zti.protin.user.UserDto;
 
+/**
+ * Entity representing a match between two users
+ */
 @Getter
 @Setter
 @Entity
 @Table(name = "matches")
 public class Match {
 
+    /**
+     * Unique identifier of the match
+     */
     @jakarta.persistence.Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,6 +30,12 @@ public class Match {
     @NotEmpty
     private Long matched_user_id;
 
+    /**
+     * Constructor for creating a match
+     *
+     * @param matching_user - user who initiated the match
+     * @param matched_user - user who was matched
+     */
     public Match(UserDto matching_user, UserDto matched_user) {
         this.matching_user_id = matching_user.getId();
         this.matched_user_id = matched_user.getId();

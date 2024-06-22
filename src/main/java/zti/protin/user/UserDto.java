@@ -1,5 +1,8 @@
 package zti.protin.user;
 
+/**
+ * Data transfer object for handling user data
+ */
 public class UserDto {
 
     private Long id;

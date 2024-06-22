@@ -7,11 +7,21 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Repository for handling match requests
+ */
 @Repository
 public interface MatchRepository extends JpaRepository<Match, Long> {
 
+    /**
+     * @return list of all matches
+     */
     List<Match> findAll();
 
+    /**
+     * @param userId - id of the user to match with
+     * @return list of matches where the user is the matching user
+     */
     @Query("SELECT m1.matched_user_id FROM Match m1 " +
             "WHERE m1.matching_user_id = :userId AND EXISTS (" +
             "SELECT m2 FROM Match m2 WHERE m2.matching_user_id = m1.matched_user_id " +

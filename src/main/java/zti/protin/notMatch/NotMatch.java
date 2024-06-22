@@ -9,6 +9,9 @@ import lombok.Getter;
 import lombok.Setter;
 import zti.protin.user.UserDto;
 
+/**
+ * Entity representing a not match between two users
+ */
 @Getter
 @Setter
 @Entity
@@ -24,6 +27,12 @@ public class NotMatch {
     @NotEmpty
     private Long matched_user_id;
 
+    /**
+     * Constructor for creating a not match
+     *
+     * @param matching_user - user who initiated the not match
+     * @param matched_user - user who was not matched
+     */
     public NotMatch(UserDto matching_user, UserDto matched_user) {
         this.matching_user_id = matching_user.getId();
         this.matched_user_id = matched_user.getId();

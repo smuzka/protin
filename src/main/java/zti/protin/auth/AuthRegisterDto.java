@@ -2,6 +2,9 @@ package zti.protin.auth;
 
 import lombok.Data;
 
+/**
+ * DTO for registration requests
+ */
 @Data
 public class AuthRegisterDto {
     private String email;

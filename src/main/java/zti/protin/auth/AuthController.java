@@ -12,25 +12,38 @@ import zti.protin.security.JwtUtil;
 import zti.protin.security.TokenBlacklistService;
 import zti.protin.user.MyUserDetailsService;
 
+/**
+ * Controller for handling authentication requests
+ */
 @RestController
 @RequestMapping("/api")
 public class AuthController {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
+    /**
+     * Service for handling authentication requests
+     */
     @Autowired
     private JwtUtil jwtUtil;
 
-    @Autowired
-    private UserDetailsService userDetailsService;
-
+    /**
+     * Service for handling user requests
+     */
     @Autowired
     private MyUserDetailsService userService;
 
+    /**
+     * Service for handling token blacklist requests
+     */
     @Autowired
     private TokenBlacklistService tokenBlacklistService;
 
+    /**
+     * Endpoint for logging in
+     *
+     * @param authLoginDTO - DTO containing email and password
+     * @return JWT token
+     * @throws Exception - exception thrown if the email or password is incorrect
+     */
     @PostMapping("/login")
     public ResponseEntity<String> createAuthenticationToken(@RequestBody AuthLoginDTO authLoginDTO) throws Exception {
         try {
@@ -46,6 +59,13 @@ public class AuthController {
         return ResponseEntity.ok(jwt);
     }
 
+    /**
+     * Endpoint for registering a new user
+     *
+     * @param authRegisterDTO - DTO containing email and password
+     * @return ResponseEntity with status 200 if registration was successful, 409 if email already exists
+     * @throws Exception - exception thrown if the email already exists
+     */
     @PostMapping("/register")
     public ResponseEntity createAuthenticationToken(@RequestBody AuthRegisterDto authRegisterDTO) throws Exception {
         try {
@@ -55,6 +75,13 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already exists");
         }
     }
+
+    /**
+     * Endpoint for logging out
+     *
+     * @param token - JWT token
+     * @return ResponseEntity with status 200
+     */
     @PostMapping("/logout")
     public ResponseEntity<String> logout(@RequestHeader("Authorization") String token) {
         if (token.startsWith("Bearer ")) {

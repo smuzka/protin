@@ -11,12 +11,25 @@ import zti.protin.auth.AuthRegisterDto;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service for handling user details
+ */
 @Service
 public class MyUserDetailsService implements UserDetailsService {
 
+    /**
+     * Repository for handling user requests
+     */
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * Get user details by email
+     *
+     * @param email - email of the user to get details for
+     * @return user details
+     * @throws UsernameNotFoundException - exception thrown if the user is not found
+     */
     @Override
     public MyUserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<User> user = userRepository.findByEmail(email);
@@ -25,14 +38,30 @@ public class MyUserDetailsService implements UserDetailsService {
         return user.map(MyUserDetails::new).get();
     }
 
+    /**
+     * Add a user
+     *
+     * @param user - user to add
+     */
     public void Add(AuthRegisterDto user) {
         userRepository.save(new User(user));
     }
 
+    /**
+     * Get all users
+     *
+     * @return all users
+     */
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
+    /**
+     * Get user by id
+     *
+     * @param id - id of the user to get
+     * @return user details
+     */
     public UserDto getUserDtoById(Long id) {
         Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {
@@ -52,6 +81,12 @@ public class MyUserDetailsService implements UserDetailsService {
         }
     }
 
+    /**
+     * Check if the password is correct
+     *
+     * @param authLoginDTO - DTO containing email and password
+     * @return true if the password is correct, false otherwise
+     */
     public boolean checkPassword(AuthLoginDTO authLoginDTO) {
         // Use BCryptPasswordEncoder to check if the given password matches the hashed password
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -59,6 +94,12 @@ public class MyUserDetailsService implements UserDetailsService {
         return encoder.matches(authLoginDTO.getPassword(), user.getPassword());
     }
 
+    /**
+     * Get user to match
+     *
+     * @param id - id of the user to get
+     * @return user to match
+     */
     public User getUserToMatch(Long id) {
         return userRepository.findUserToMatchById(id);
     }

@@ -12,13 +12,25 @@ import zti.protin.user.User;
 
 import java.util.List;
 
+/**
+ * Controller for handling match requests
+ */
 @RestController
 @RequestMapping("/api")
 public class MatchController {
 
+    /**
+     * Service for handling match requests
+     */
     @Autowired
     private MatchService matchService;
 
+    /**
+     * Endpoint for matching two users
+     *
+     * @param userId - id of the user to match with
+     * @return true if the match was successful, false otherwise
+     */
     @PostMapping("/match/{userId}")
     public ResponseEntity<Boolean> match(@PathVariable Long userId) {
         Long matchingUserId = null;
@@ -40,6 +52,11 @@ public class MatchController {
         return new ResponseEntity<>(isMatch, HttpStatus.OK);
     }
 
+    /**
+     * Endpoint for getting a list of users that have matched with the current user
+     *
+     * @return list of users that have matched with the current user
+     */
     @GetMapping("/mutual-matches")
     public ResponseEntity<List<User>> getMutualMatches() {
         Long userId = null;

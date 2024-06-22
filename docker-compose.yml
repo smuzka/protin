@@ -12,4 +12,5 @@ services:
       - DB_URL
       - DB_USERNAME
       - DB_PASSWORD
+      - JWT_SECRET
       - CUSTOM_ENV_VAR

@@ -13,25 +13,47 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * Controller for handling user requests
+ */
 @RestController
 @RequestMapping("/api")
 public class UserController {
 
+    /**
+     * Service for handling user details
+     */
     @Autowired
     private MyUserDetailsService userService;
 
+    /**
+     * Get all users
+     *
+     * @return all users
+     */
     @GetMapping("/users")
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.getAllUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+    /**
+     * Get a user by id
+     *
+     * @param userId - id of the user to get
+     * @return
+     */
     @GetMapping("user/{userId}")
     public ResponseEntity<UserDto> getUser(@PathVariable Long userId) {
         UserDto user = userService.getUserDtoById(userId);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
+    /**
+     * Get user to match
+     *
+     * @return user to match
+     */
     @GetMapping("/user-to-match")
     public ResponseEntity<User> getUserToMatch() {
         Long userId = null;
@@ -56,6 +78,11 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
+    /**
+     * Get current user
+     *
+     * @return current user
+     */
     @GetMapping("/me")
     public User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
